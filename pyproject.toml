@@ -9,9 +9,9 @@ requires = [
 build-backend = "setuptools.build_meta"  # must be set always
 
 [project]
-name = "<FILL-IN-PYPI-PROJECT-NAME-HERE>"
+name = "awx_plugins.interfaces"
 # version =  # should remain unset when `setuptools-scm` is handling it
-description = "<FILL-IN-A-SHORT-PYPI-PROJECT-DESCRIPTION-HERE>"
+description = "Common interfaces for implementing plugins to AWX."
 dependencies = [  # runtime deps  # https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#dependencies-optional-dependencies
   # GUIDANCE: only add things that this project imports directly
   # GUIDANCE: only set lower version bounds
@@ -93,9 +93,9 @@ content-type = "text/markdown"
 Homepage = "https://docs.ansible.com"
 "Chat: Discuss Forum" = "https://forum.ansible.com"
 "Chat: Matrix" = "https://matrix.to/#/#awx:ansible.com"
-"CI: GitHub" = "https://github.com/ansible/<FILL-IN-PYPI-PROJECT-NAME-HERE>/actions/workflows/ci-cd.yml"
-"Docs: RTD" = "https://<FILL-IN-PYPI-PROJECT-NAME-HERE>.rtfd.io"
-"GitHub: issues" = "https://github.com/ansible/<FILL-IN-PYPI-PROJECT-NAME-HERE>/issues"
-"GitHub: repo" = "https://github.com/ansible/<FILL-IN-PYPI-PROJECT-NAME-HERE>"
+"CI: GitHub" = "https://github.com/ansible/awx_plugins.interfaces/actions/workflows/ci-cd.yml"
+"Docs: RTD" = "https://awx-plugins-interfaces.rtfd.io"
+"GitHub: issues" = "https://github.com/ansible/awx_plugins.interfaces/issues"
+"GitHub: repo" = "https://github.com/ansible/awx_plugins.interfaces"
 
 [tool.setuptools_scm]  # this section presence is a feature-flag to activate `setuptools-scm`

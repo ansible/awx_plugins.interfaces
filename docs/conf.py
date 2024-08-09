@@ -33,7 +33,7 @@ elif IS_RTD_ENV:
 sys.path.insert(0, str(DOCS_ROOT_DIR / '_ext'))
 
 
-project = '<FILL-IN-PYPI-PROJECT-NAME-HERE>'
+project = 'awx_plugins.interfaces'
 author = 'Ansible maintainers and contributors'
 copyright = author  # pylint: disable=redefined-builtin
 

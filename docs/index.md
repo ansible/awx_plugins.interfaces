@@ -3,7 +3,7 @@
 
 <!-- markdownlint-disable first-line-heading -->
 
-(\_<FILL-IN-SNAKE_CASED-PROJECT-NAME-HERE>_index)=
+(\_awx_plugins_interfaces_index)=
 # {{ project }} Documentation
 
 
@@ -32,7 +32,7 @@ Code Of Conduct <contributing/code_of_conduct>
 contributing/guidelines
 contributing/communication
 contributing/security
-Private unsupported (dev) API autodoc <pkg/<FILL-IN-PYPI-PROJECT-NAME-HERE>>
+Private unsupported (dev) API autodoc <pkg/awx_plugins.interfaces>
 ```
 
 ```{toctree}
