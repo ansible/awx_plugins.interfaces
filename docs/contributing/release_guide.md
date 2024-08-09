@@ -60,4 +60,4 @@ The intended audience for this document is maintainers and core contributors.
 
 
 [GitHub Actions CI/CD workflow]:
-https://github.com/ansible/<FILL-IN-PYPI-PROJECT-NAME-HERE>/actions/workflows/ci-cd.yml
+https://github.com/ansible/awx_plugins.interfaces/actions/workflows/ci-cd.yml

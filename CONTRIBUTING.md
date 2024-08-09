@@ -4,7 +4,7 @@ This project is [Apache-2.0 licensed] and accepts contributions through
 GitHub pull requests.
 
 [Apache-2.0 licensed]:
-https://github.com/ansible/<FILL-IN-PYPI-PROJECT-NAME-HERE>/blob/devel/LICENSE
+https://github.com/ansible/awx_plugins.interfaces/blob/devel/LICENSE
 
 ## Certificate of Origin
 
@@ -13,7 +13,7 @@ Origin (DCO). This document was created by the Linux Kernel community and is a
 simple statement that you, as a contributor, have the legal right to make the
 contribution. See the [DCO] file for details.
 
-[DCO]: https://github.com/ansible/<FILL-IN-PYPI-PROJECT-NAME-HERE>/blob/devel/DCO
+[DCO]: https://github.com/ansible/awx_plugins.interfaces/blob/devel/DCO
 
 ## Principles
 
@@ -27,7 +27,7 @@ This repository adheres to the following principles:
   alignment with the project objectives principles.
 
 [Code of Conduct]:
-https://github.com/ansible/<FILL-IN-PYPI-PROJECT-NAME-HERE>/blob/devel/CODE-OF-CONDUCT.md
+https://github.com/ansible/awx_plugins.interfaces/blob/devel/CODE-OF-CONDUCT.md
 
 ## How to contribute
 

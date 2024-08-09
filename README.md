@@ -11,28 +11,28 @@
 [![Ansible Discourse Badge]][Ansible Discourse]
 
 [CI/CD Badge]:
-https://github.com/ansible/<FILL-IN-PYPI-PROJECT-NAME-HERE>/actions/workflows/ci-cd.yml/badge.svg?branch=devel
-[CI/CD]: https://github.com/ansible/<FILL-IN-PYPI-PROJECT-NAME-HERE>/actions/workflows/ci-cd.yml
+https://github.com/ansible/awx_plugins.interfaces/actions/workflows/ci-cd.yml/badge.svg?branch=devel
+[CI/CD]: https://github.com/ansible/awx_plugins.interfaces/actions/workflows/ci-cd.yml
 
 [pre-commit.ci Badge]:
-https://results.pre-commit.ci/badge/github/ansible/<FILL-IN-PYPI-PROJECT-NAME-HERE>/devel.svg
+https://results.pre-commit.ci/badge/github/ansible/awx_plugins.interfaces/devel.svg
 [pre-commit.ci]:
-https://results.pre-commit.ci/latest/github/ansible/<FILL-IN-PYPI-PROJECT-NAME-HERE>/devel
+https://results.pre-commit.ci/latest/github/ansible/awx_plugins.interfaces/devel
 
-[PyPI Badge]: https://img.shields.io/pypi/v/<FILL-IN-PYPI-PROJECT-NAME-HERE>
-[PyPI]: https://pypi.org/p/<FILL-IN-PYPI-PROJECT-NAME-HERE>
+[PyPI Badge]: https://img.shields.io/pypi/v/awx_plugins.interfaces
+[PyPI]: https://pypi.org/p/awx_plugins.interfaces
 
-[PyPI Supported Versions Badge]: https://img.shields.io/pypi/pyversions/<FILL-IN-PYPI-PROJECT-NAME-HERE>.svg
-[PyPI Supported Versions]: https://pypi.org/p/<FILL-IN-PYPI-PROJECT-NAME-HERE>
+[PyPI Supported Versions Badge]: https://img.shields.io/pypi/pyversions/awx_plugins.interfaces.svg
+[PyPI Supported Versions]: https://pypi.org/p/awx_plugins.interfaces
 
-[Codecov Badge]: https://codecov.io/gh/ansible/<FILL-IN-PYPI-PROJECT-NAME-HERE>/branch/devel/graph/badge.svg
-[Codecov]: https://app.codecov.io/gh/ansible/<FILL-IN-PYPI-PROJECT-NAME-HERE>
+[Codecov Badge]: https://codecov.io/gh/ansible/awx_plugins.interfaces/branch/devel/graph/badge.svg
+[Codecov]: https://app.codecov.io/gh/ansible/awx_plugins.interfaces
 
 [Code of Conduct Badge]: https://img.shields.io/badge/code%20of%20conduct-Ansible-yellow.svg
 [Code of Conduct]: https://docs.ansible.com/ansible/latest/community/code_of_conduct.html
 
 [Apache v2 License Badge]: https://img.shields.io/badge/license-Apache%202.0-brightgreen.svg
-[Apache v2 License]: https://github.com/ansible/<FILL-IN-PYPI-PROJECT-NAME-HERE>/blob/devel/LICENSE
+[Apache v2 License]: https://github.com/ansible/awx_plugins.interfaces/blob/devel/LICENSE
 
 [Ansible Matrix Badge]:
 https://img.shields.io/badge/matrix-Ansible%20Community-blueviolet.svg?logo=matrix
@@ -46,11 +46,11 @@ https://img.shields.io/badge/discourse-Ansible%20Community-yellowgreen.svg?logo=
 [![RTD Build Status Badge]][RTD Docs]
 
 [RTD Build Status Badge]:
-https://readthedocs.org/projects/<FILL-IN-PYPI-PROJECT-NAME-HERE>/badge/?version=latest
-[RTD Docs]: https://<FILL-IN-PYPI-PROJECT-NAME-HERE>.rtfd.io
+https://readthedocs.org/projects/awx-plugins-interfaces/badge/?version=latest
+[RTD Docs]: https://awx-plugins-interfaces.rtfd.io
 
-# <FILL-IN-PYPI-PROJECT-NAME-HERE>
+# awx_plugins.interfaces
 
 <!-- DO-NOT-REMOVE-docs-intro-START -->
-<FILL-IN-A-SHORT-PYPI-PROJECT-DESCRIPTION-HERE>
+Common interfaces for implementing plugins to AWX.
 <!-- DO-NOT-REMOVE-docs-intro-END -->
