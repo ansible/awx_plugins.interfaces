@@ -1,0 +1,101 @@
+[build-system]
+requires = [
+  # Essentials:
+  "setuptools >= 64",
+
+  # Plugins:
+  "setuptools-scm >= 8",
+]
+build-backend = "setuptools.build_meta"  # must be set always
+
+[project]
+name = "<FILL-IN-PYPI-PROJECT-NAME-HERE>"
+# version =  # should remain unset when `setuptools-scm` is handling it
+description = "<FILL-IN-A-SHORT-PYPI-PROJECT-DESCRIPTION-HERE>"
+dependencies = [  # runtime deps  # https://packaging.python.org/en/latest/guides/writing-pyproject-toml/#dependencies-optional-dependencies
+  # GUIDANCE: only add things that this project imports directly
+  # GUIDANCE: only set lower version bounds
+  # "pluggy",  # TODO: start using https://pluggy.rtfd.io
+]
+classifiers = [  # Allowlist: https://pypi.org/classifiers/
+  "Development Status :: 1 - Planning",
+
+  "Environment :: Web Environment",
+
+  "Framework :: Ansible",
+
+  "Intended Audience :: System Administrators",
+
+  "License :: OSI Approved :: Apache Software License",
+
+  "Operating System :: POSIX :: Linux",
+
+  "Programming Language :: Python :: 3",
+  # It's usually a good idea to list runtimes present in CI:
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+
+  "Topic :: System :: Systems Administration",
+
+  "Typing :: Typed",
+]
+dynamic = [
+  "version",  # let `setuptools-scm` populate this
+]
+keywords = [
+  "Ansible",
+  "AWX",
+]
+requires-python = ">= 3.11"  # must be set from the very first release
+
+[[project.authors]]
+name = "Ansible maintainers and contributors"
+
+# Example entry point declarations:
+# * https://github.com/ansible/awx-plugins/blob/e22c150/pyproject.toml#L76-L99
+#
+# NOTE: awx calls
+# `importlib.metadata.entry_points(group='awx_plugins.credentials')`
+# NOTE: through `awx_plugins.interfaces` to discover and later enable any
+# NOTE: plugins present in the same env.
+#
+# PLUGIN ACTIVATION GUIDANCE (UX):
+# `pip install awx_plugins.credentials.x`  would auto-activate any plugins the packaged project ships
+# [project.entry-points."awx_plugins.credentials"]
+# x = "awx_plugins.credentials.x.api:XPlugin"
+
+[project.license]
+file = "LICENSE"
+
+# [[project.maintainers]]  # if differs from authors
+# name = ""
+# email = "@"
+
+# [project.optional-dependencies]
+# # These are additional runtime dependencies used as feature-flags.
+# # The end-users will be able to reference them in their
+# # dependencies. Do not abuse as "test" / "dev" deps.
+# # Treat as public API.
+# a-feature = [
+#   "a-dependency"
+# ]
+
+[project.readme]
+file = "README.md"
+content-type = "text/markdown"
+
+# [project.scripts]
+# # These are entry-point executables for interfacing via CLI:
+# executable = "packaged.importable:callable"
+
+[project.urls]
+Homepage = "https://docs.ansible.com"
+"Chat: Discuss Forum" = "https://forum.ansible.com"
+"Chat: Matrix" = "https://matrix.to/#/#awx:ansible.com"
+"CI: GitHub" = "https://github.com/ansible/<FILL-IN-PYPI-PROJECT-NAME-HERE>/actions/workflows/ci-cd.yml"
+"Docs: RTD" = "https://<FILL-IN-PYPI-PROJECT-NAME-HERE>.rtfd.io"
+"GitHub: issues" = "https://github.com/ansible/<FILL-IN-PYPI-PROJECT-NAME-HERE>/issues"
+"GitHub: repo" = "https://github.com/ansible/<FILL-IN-PYPI-PROJECT-NAME-HERE>"
+
+[tool.setuptools_scm]  # this section presence is a feature-flag to activate `setuptools-scm`
