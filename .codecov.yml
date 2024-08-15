@@ -8,7 +8,7 @@ codecov:
   require_ci_to_pass: false
 
   token: >-  # repo-scoped, upload-only, needed for stability in PRs from forks
-    xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+    8310a826-e0de-41a8-b302-8d1e502158ab
 
 comment:
   require_changes: true
