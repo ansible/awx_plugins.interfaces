@@ -158,6 +158,9 @@ linkcheck_ignore = [
     r'https://github\.com(/[^/]+){2}/actions',  # 404 if no auth
     r'^https://chat\.ansible\.im/#',  # these render fully on front-end
     r'^https://matrix\.to/#',  # these render fully on front-end from anchors
+
+    # temporary ignores:
+    f'https://pypi.org/p/{project}',
 ]
 linkcheck_workers = 25
 
