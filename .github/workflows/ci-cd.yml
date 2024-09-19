@@ -89,7 +89,7 @@ env:
     PYTHONLEGACYWINDOWSSTDIO
     PYTHONUTF8
   UPSTREAM_REPOSITORY_ID: >-
-    <FILL-IN-GITHUB-REPOSITORY-ID-HERE>  # look it up at https://api.github.com/repos/ansible/<PYPI-PROJECT-NAME>
+    858143066
 
 run-name: >-
   ${{
