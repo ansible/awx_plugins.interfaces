@@ -8,7 +8,7 @@ attrs==24.2.0
     # via hypothesis
 covdefaults==2.3.0
     # via -r dependencies/direct/py.in
-coverage==7.6.4
+coverage==7.6.7
     # via
     #   -r dependencies/direct/py.in
     #   covdefaults
@@ -18,11 +18,11 @@ coverage-enable-subprocess==1.0
     # via -r dependencies/direct/py.in
 execnet==2.1.1
     # via pytest-xdist
-hypothesis==6.115.3
+hypothesis==6.119.3
     # via -r dependencies/direct/py.in
 iniconfig==2.0.0
     # via pytest
-packaging==24.1
+packaging==24.2
     # via pytest
 pluggy==1.5.0
     # via pytest
@@ -32,7 +32,7 @@ pytest==8.3.3
     #   pytest-cov
     #   pytest-mock
     #   pytest-xdist
-pytest-cov==5.0.0
+pytest-cov==6.0.0
     # via -r dependencies/direct/py.in
 pytest-mock==3.14.0
     # via -r dependencies/direct/py.in
