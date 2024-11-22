@@ -1,8 +1,7 @@
 from typing import Callable
 
-from awx_plugins.interfaces._temporary_private_credential_api import (  # noqa: WPS436
-    GenericOptionalPrimitiveType,
-)
+
+GenericOptionalPrimitiveType = bool | str | int | float | None
 
 
 class Credential:
