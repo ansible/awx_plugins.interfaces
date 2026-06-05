@@ -497,6 +497,26 @@ def test_injectors_inv_update_id(private_data_dir: str) -> None:
             },
             id='multiple-files',
         ),
+        pytest.param(
+            {
+                'fields': [
+                    {
+                        'id': 'file_content',
+                        'label': 'File Content',
+                        'type': 'string',
+                    },
+                ],
+            },
+            {
+                'file': {'template': '{{file_content}}'},
+                'env': {'MY_FILE_PATH': '{{tower.filename | quote}}'},
+            },
+            {'file_content': 'secret-data'},
+            {
+                'MY_FILE_PATH': 'secret-data',
+            },
+            id='quote-filter',
+        ),
     ),
 )
 def test_injectors_with_file(

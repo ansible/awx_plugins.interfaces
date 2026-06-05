@@ -2,6 +2,7 @@
 
 import os
 import re
+import shlex
 import stat
 import tempfile
 from collections.abc import Mapping
@@ -256,6 +257,7 @@ def inject_credential(
     # referenced in other injectors
 
     sandbox_env = ImmutableSandboxedEnvironment()
+    sandbox_env.filters['quote'] = shlex.quote
 
     file: str | None = None
     files: dict[str, str] = {}
