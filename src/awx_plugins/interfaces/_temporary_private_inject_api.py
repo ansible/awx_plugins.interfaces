@@ -273,7 +273,7 @@ def inject_credential(
     file_paths: dict[str, tuple[str, str]] = {}
     file: str | None = None
 
-    for file_label, file_tmpl in file_tmpls.items():
+    for file_label in file_tmpls:
         env_dir = os.path.join(private_data_dir, 'env')
         path = tempfile.mkstemp(dir=env_dir)[1]
         os.chmod(path, stat.S_IRUSR | stat.S_IWUSR)
