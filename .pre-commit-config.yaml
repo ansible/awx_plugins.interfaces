@@ -262,4 +262,9 @@ repos:
     - Sphinx  # needed by the Sphinx extension stub
     - tox  # needed by `toxfile.py`
 
+- repo: https://github.com/rhysd/actionlint.git
+  rev: v1.7.8
+  hooks:
+  - id: actionlint
+
 ...
