@@ -288,9 +288,8 @@ def inject_credential(
             # typeshed, so mypy sees this isinstance() as containing Any.
             if not isinstance(tower_namespace.filename, SimpleNamespace):  # type: ignore[misc]
                 tower_namespace.filename = SimpleNamespace()
-            filename_ns: SimpleNamespace = tower_namespace.filename
             setattr(
-                filename_ns,
+                tower_namespace.filename,
                 file_label.split('.')[1],
                 container_path,
             )
