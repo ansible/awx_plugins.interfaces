@@ -592,8 +592,7 @@ def test_injectors_with_file_cross_reference(
     key_file_path = str(env['KEY_FILE'])
     config_path = to_host_path(str(env['CONFIG_FILE']), private_data_dir)
 
-    with open(config_path, encoding='utf-8') as config_file:
-        config_content = config_file.read()
+    config_content = Path(config_path).read_text(encoding='utf-8')
 
     assert key_file_path in config_content, (
         f'Config file should contain the key file path {key_file_path!r}, '

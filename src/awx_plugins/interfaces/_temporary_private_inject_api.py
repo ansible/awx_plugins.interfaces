@@ -1,6 +1,7 @@
 """Injectors exercise plugins."""
 
 import os
+import pathlib
 import re
 import stat
 import tempfile
@@ -257,8 +258,8 @@ def inject_credential(
     # special `tower` template namespace so the filename can be
     # referenced in other injectors
 
-    has_bare = any(label.find('.') == -1 for label in file_tmpls)
-    has_dotted = any(label.find('.') != -1 for label in file_tmpls)
+    has_bare = any('.' not in label for label in file_tmpls)
+    has_dotted = any('.' in label for label in file_tmpls)
     if has_bare and has_dotted:
         msg = (
             "Credential type file injectors cannot mix bare 'template' "
@@ -282,9 +283,11 @@ def inject_credential(
         container_path = get_incontainer_path(path, private_data_dir)
         file_paths[file_label] = (path, container_path)
 
-        if file_label.find('.') == -1:
+        if '.' not in file_label:
             file = container_path
         else:
+            # SimpleNamespace.__getattr__ returns Any, making the
+            # isinstance() expression contain Any in mypy's view.
             if not isinstance(tower_namespace.filename, SimpleNamespace):  # type: ignore[misc]
                 tower_namespace.filename = SimpleNamespace()
             setattr(
@@ -303,8 +306,7 @@ def inject_credential(
             **namespace,
         )
         host_path = file_paths[tmpl_label][0]
-        with open(host_path, 'w') as f:  # pylint: disable=unspecified-encoding
-            f.write(data)
+        pathlib.Path(host_path).write_text(data, encoding='utf-8')
 
     for env_var, tmpl in cred_type.injectors.get('env', {}).items():
         if env_var in ENV_BLOCKLIST:
