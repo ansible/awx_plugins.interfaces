@@ -189,6 +189,8 @@ def inject_credential(
         files)
     :param container_root: root directory inside the container to mount
         the private data directory to.
+    :raises ValueError: if file injectors mix bare ``template`` and
+        dotted ``template.<x>`` labels
     :returns: None
     """
     if not cred_type.injectors:
