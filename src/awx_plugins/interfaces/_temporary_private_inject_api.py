@@ -286,8 +286,8 @@ def inject_credential(
         if '.' not in file_label:
             file = container_path
         else:
-            # SimpleNamespace.__getattr__ returns Any, making the
-            # isinstance() expression contain Any in mypy's view.
+            # SimpleNamespace.__getattribute__ is typed as -> Any in
+            # typeshed, so mypy sees this isinstance() as containing Any.
             if not isinstance(tower_namespace.filename, SimpleNamespace):  # type: ignore[misc]
                 tower_namespace.filename = SimpleNamespace()
             setattr(
