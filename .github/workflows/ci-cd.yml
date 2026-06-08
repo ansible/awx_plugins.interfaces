@@ -691,7 +691,7 @@ jobs:
         set -eEuo pipefail
 
         REMOTE_TAGGED_COMMIT_SHA="$(
-          git ls-remote --tags --refs $(git remote get-url origin) '${{
+          git ls-remote --tags --refs "$(git remote get-url origin)" '${{
             needs.pre-setup.outputs.git-tag
           }}' | awk '{print $1}'
         )"

@@ -214,6 +214,7 @@ jobs:
 
         git add "dependencies/lock-files/${LOCK_BASE_NAME}.txt"
 
+        # shellcheck disable=SC2015  # `|| :` is meant as a no-op
         git commit "dependencies/lock-files/${LOCK_BASE_NAME}.txt" \
           -m "Update ${LOCK_BASE_NAME} constraints${{
           (
@@ -250,7 +251,7 @@ jobs:
       if: steps.constraints.outputs.patch
       id: random
       run: >-
-        echo uuid=$(python -c 'import uuid; print(uuid.uuid4())')
+        echo uuid="$(python -c 'import uuid; print(uuid.uuid4())')"
         >> "${GITHUB_OUTPUT}"
       shell: bash  # windows compat
     - name: Save the package bump patch as a GHA artifact
