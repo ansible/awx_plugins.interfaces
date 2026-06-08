@@ -446,7 +446,7 @@ jobs:
               fromJSON('["pre-commit", "spellcheck-docs"]'),
               matrix.toxenv
             )
-            && 4
+            && 5
             || 2
           )
         }}
