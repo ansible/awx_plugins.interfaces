@@ -168,16 +168,16 @@ repos:
   hooks:
   - id: flake8
     additional_dependencies:
-    - flake8-annotations ~= 3.1.1
-    - flake8-comprehensions ~= 3.15.0
+    - flake8-annotations ~= 3.2.0
+    - flake8-comprehensions ~= 3.17.0
     - flake8-cognitive-complexity ~= 0.1.0
     - flake8-docstrings ~= 1.7.0
     - flake8-length ~= 0.3.1
-    - flake8-logging ~= 1.6.0
+    - flake8-logging ~= 1.8.0
     # NOTE: `flake8-logging-format` hasn't had updates since 2024 and
     # NOTE: thus gained an unresolved incompatibility with Python 3.14.
     - flake8-logging-format ~= 2024.24.12; python_version < "3.14"
-    - flake8-pytest-style ~= 2.0.0
+    - flake8-pytest-style ~= 2.2.0
     # NOTE: `setuptools` provides `pkg_resources` needed by
     # NOTE: `flake8-logging-format`. `setuptools` stopped being bundled
     # NOTE: in CPython starting Python 3.12. The latest version of
@@ -187,7 +187,7 @@ repos:
     # NOTE: pre-installing the newest available version of `setuptools`
     # NOTE: from PyPI via its seeding mechanism.
     - setuptools < 81; python_version < "3.14"
-    - wemake-python-styleguide ~= 0.19.2
+    - wemake-python-styleguide ~= 1.5.0
     language_version: python3
 
 - repo: https://github.com/pre-commit/mirrors-mypy.git
