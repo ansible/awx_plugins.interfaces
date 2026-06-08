@@ -283,9 +283,7 @@ def inject_credential(
         container_path = get_incontainer_path(path, private_data_dir)
         file_paths[file_label] = (path, container_path)
 
-        if '.' not in file_label:
-            file = container_path
-        else:
+        if '.' in file_label:
             # SimpleNamespace.__getattribute__ is typed as -> Any in
             # typeshed, so mypy sees this isinstance() as containing Any.
             if not isinstance(tower_namespace.filename, SimpleNamespace):  # type: ignore[misc]
@@ -295,6 +293,8 @@ def inject_credential(
                 file_label.split('.')[1],
                 container_path,
             )
+        else:
+            file = container_path
 
     if file is not None:
         tower_namespace.filename = file
