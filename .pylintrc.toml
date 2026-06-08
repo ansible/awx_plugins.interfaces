@@ -357,7 +357,9 @@ single-line-if-stmt = false
 # allow-wildcard-with-all =
 
 # Deprecated modules which should not be used, separated by a comma.
-# deprecated-modules =
+deprecated-modules = [
+  "unittest",
+]
 
 # Output a graph (.gv or any supported image format) of external dependencies to
 # the given file (report RP0402 must not be disabled).

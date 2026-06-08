@@ -5,7 +5,10 @@ import shutil
 import tempfile
 from collections.abc import Generator
 from pathlib import Path
-from unittest import mock  # pylint: disable=preferred-module
+
+# NOTE: The unittest import should not be here but we temporarily have it until
+# NOTE: it's replaced with the `pytest-mock`'s `mocker` fixture.
+from unittest import mock  # pylint: disable=deprecated-module,preferred-module
 
 import pytest
 
