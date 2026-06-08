@@ -255,29 +255,54 @@ def inject_credential(
     # special `tower` template namespace so the filename can be
     # referenced in other injectors
 
+    has_bare = any(label.find('.') == -1 for label in file_tmpls)
+    has_dotted = any(label.find('.') != -1 for label in file_tmpls)
+    if has_bare and has_dotted:
+        msg = (
+            "Credential type file injectors cannot mix bare 'template' "
+            "and dotted 'template.<x>' labels — the bare value would "
+            'overwrite the dotted namespace or vice-versa'
+        )
+        raise ValueError(msg)
+
     sandbox_env = ImmutableSandboxedEnvironment()
 
+    # Pass 1: create all files to establish paths, so that
+    # tower.filename.* is fully populated before any template
+    # might need to cross-reference another file's path.
+    file_paths: dict[str, tuple[str, str]] = {}
     file: str | None = None
-    files: dict[str, str] = {}
 
+    for file_label, file_tmpl in file_tmpls.items():
+        env_dir = os.path.join(private_data_dir, 'env')
+        path = tempfile.mkstemp(dir=env_dir)[1]
+        os.chmod(path, stat.S_IRUSR | stat.S_IWUSR)
+        container_path = get_incontainer_path(path, private_data_dir)
+        file_paths[file_label] = (path, container_path)
+
+        if file_label.find('.') == -1:
+            file = container_path
+        else:
+            if not isinstance(tower_namespace.filename, SimpleNamespace):  # type: ignore[misc]
+                tower_namespace.filename = SimpleNamespace()
+            setattr(
+                tower_namespace.filename,
+                file_label.split('.')[1],
+                container_path,
+            )
+
+    if file is not None:
+        tower_namespace.filename = file
+
+    # Pass 2: render templates and write files now that all
+    # tower.filename.* paths are available for cross-references.
     for file_label, file_tmpl in file_tmpls.items():
         data: str = sandbox_env.from_string(file_tmpl).render(
             **namespace,
         )
-        env_dir = os.path.join(private_data_dir, 'env')
-        path = tempfile.mkstemp(dir=env_dir)[1]
-        with open(path, 'w') as f:  # pylint: disable=unspecified-encoding
+        host_path = file_paths[file_label][0]
+        with open(host_path, 'w') as f:  # pylint: disable=unspecified-encoding
             f.write(data)
-        os.chmod(path, stat.S_IRUSR | stat.S_IWUSR)
-        container_path = get_incontainer_path(path, private_data_dir)
-
-        # determine if filename indicates single file or many
-        if file_label.find('.') == -1:
-            file = container_path
-        else:
-            files[file_label.split('.')[1]] = container_path
-
-    tower_namespace.filename = file or SimpleNamespace(**files)
 
     for env_var, tmpl in cred_type.injectors.get('env', {}).items():
         if env_var in ENV_BLOCKLIST:

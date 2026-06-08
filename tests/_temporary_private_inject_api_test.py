@@ -530,6 +530,136 @@ def test_injectors_with_file(
 
 
 @pytest.mark.parametrize(
+    'file_injectors',
+    (
+        pytest.param(
+            {
+                'template.ssh_keyfile': '{{ssh_key}}',
+                'template.config_file': (
+                    '[DEFAULT]\nkey_file={{tower.filename.ssh_keyfile}}'
+                ),
+            },
+            id='config-references-keyfile',
+        ),
+        pytest.param(
+            {
+                'template.config_file': (
+                    '[DEFAULT]\nkey_file={{tower.filename.ssh_keyfile}}'
+                ),
+                'template.ssh_keyfile': '{{ssh_key}}',
+            },
+            id='config-before-keyfile-in-dict',
+        ),
+    ),
+)
+def test_injectors_with_file_cross_reference(
+    private_data_dir: str,
+    file_injectors: dict[str, str],
+) -> None:
+    """Check that a file template can reference another file's path.
+
+    This mirrors the OCI credential type pattern from AAP-78106 where
+    a config file contains key_file={{ tower.filename.ssh_keyfile }}.
+    Both dict orderings are tested to ensure the fix is order-independent.
+    """
+    cred_type = ManagedCredentialType(
+        kind='cloudg',
+        name='SomeCloudCrossRef',
+        namespace='foo',
+        managed=False,
+        inputs={
+            'fields': [
+                {
+                    'id': 'ssh_key',
+                    'label': 'SSH Key',
+                    'type': 'string',
+                },
+            ],
+        },
+        injectors={
+            'file': file_injectors,
+            'env': {
+                'CONFIG_FILE': '{{tower.filename.config_file}}',
+                'KEY_FILE': '{{tower.filename.ssh_keyfile}}',
+            },
+        },
+    )
+    credential = Credential(inputs={'ssh_key': 'PRIVATE_KEY_DATA'})
+
+    env: EnvVarsType = {}
+    inject_credential(cred_type, credential, env, {}, [], private_data_dir)
+
+    key_file_path = str(env['KEY_FILE'])
+    config_path = to_host_path(str(env['CONFIG_FILE']), private_data_dir)
+
+    with open(config_path, encoding='utf-8') as config_file:
+        config_content = config_file.read()
+
+    assert key_file_path in config_content, (
+        f'Config file should contain the key file path {key_file_path!r}, '
+        f'got: {config_content!r}'
+    )
+
+
+def test_injectors_with_mixed_file_labels(
+    private_data_dir: str,
+) -> None:
+    """Check that mixing bare 'template' and dotted 'template.<x>' raises.
+
+    A credential type whose file injectors contain both ``template``
+    (which sets ``tower.filename`` to a single path string) and
+    ``template.<x>`` (which stores paths as ``tower.filename.<x>``)
+    is ambiguous: the bare value would overwrite the namespace or vice-versa,
+    silently breaking ``{{ tower.filename }}`` or ``{{ tower.filename.<x> }}``
+    references in other injectors.
+    """
+    cred_type = ManagedCredentialType(
+        kind='cloudy',
+        name='MixedLabels',
+        namespace='foo',
+        managed=False,
+        inputs={
+            'fields': [
+                {
+                    'id': 'api_token',
+                    'label': 'API Token',
+                    'type': 'string',
+                },
+                {
+                    'id': 'cert',
+                    'label': 'Certificate',
+                    'type': 'string',
+                },
+            ],
+        },
+        injectors={
+            'file': {
+                'template': '[mycloud]\n{{api_token}}',
+                'template.cert': '{{cert}}',
+            },
+            'env': {
+                'MY_CLOUD_INI_FILE': '{{tower.filename}}',
+                'MY_CERT_FILE': '{{tower.filename.cert}}',
+            },
+        },
+    )
+    credential = Credential(
+        inputs={'api_token': 'ABC456', 'cert': 'CERT_DATA'},
+    )
+
+    env: EnvVarsType = {}
+    with pytest.raises(ValueError, match='cannot mix'):
+        inject_credential(
+            cred_type,
+            credential,
+            env,
+            {},
+            [],
+            private_data_dir,
+        )
+
+
+@pytest.mark.parametrize(
     'managed',
     (True, False),  # noqa: WPS425
 )
