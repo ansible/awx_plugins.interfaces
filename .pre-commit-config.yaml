@@ -3,9 +3,6 @@
 ci:
   autoupdate_schedule: quarterly  # low frequency to reduce maintenance noise
 
-default_language_version:
-  python: python3.13  # nitpick and wemake-python-styleguide crash on 3.14
-
 repos:
 - repo: local
   hooks:
@@ -93,6 +90,9 @@ repos:
   rev: v0.38.1
   hooks:
   - id: nitpick-check
+    # NOTE: `nitpick` hasn't been updated for Python 3.14 yet —
+    # NOTE: `importlib.abc.Traversable` was removed.
+    language_version: python3
     pass_filenames: false
 
 - repo: https://github.com/pre-commit/pygrep-hooks.git
