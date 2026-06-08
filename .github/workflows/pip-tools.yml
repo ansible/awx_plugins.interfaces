@@ -81,7 +81,8 @@ jobs:
         - 3.11
         - ~3.13.0-0
         os:
-        - ubuntu-24.04
+        - ubuntu-24.04-arm
+        - ubuntu-24.04  # x86_64
         - macos-15  # arm64
         - macos-15-intel
         lock-file-env:
