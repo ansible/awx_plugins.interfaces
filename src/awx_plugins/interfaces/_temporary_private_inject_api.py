@@ -298,11 +298,11 @@ def inject_credential(
 
     # Pass 2: render templates and write files now that all
     # tower.filename.* paths are available for cross-references.
-    for file_label, file_tmpl in file_tmpls.items():
+    for tmpl_label, file_tmpl in file_tmpls.items():
         data: str = sandbox_env.from_string(file_tmpl).render(
             **namespace,
         )
-        host_path = file_paths[file_label][0]
+        host_path = file_paths[tmpl_label][0]
         with open(host_path, 'w') as f:  # pylint: disable=unspecified-encoding
             f.write(data)
 
