@@ -2,7 +2,7 @@
 
 codecov:
   notify:
-    after_n_builds: 10  # Number of test matrix+lint jobs uploading coverage
+    after_n_builds: 16  # Number of test matrix+lint jobs uploading coverage
     wait_for_ci: false
 
   require_ci_to_pass: false
@@ -23,10 +23,6 @@ coverage:
         target: 100%
         flags:
         - pytest
-      typing:
-        target: 98%
-        flags:
-        - MyPy
     project:
       default:
         target: 100%
@@ -42,9 +38,5 @@ coverage:
         paths:
         - tests/
         target: 100%
-      typing:
-        flags:
-        - MyPy
-        target: 98%
 
 ...
