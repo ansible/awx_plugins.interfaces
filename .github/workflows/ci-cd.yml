@@ -378,6 +378,11 @@ jobs:
         - spellcheck-docs
         xfail:
         - false
+        include:
+        - python-version: 3.14
+          runner-vm-os: ubuntu-latest
+          toxenv: pre-commit
+          xfail: false
       fail-fast: false
 
     uses: tox-dev/workflow/.github/workflows/reusable-tox.yml@1bb961580e20073f66ccb9024f248357f8c8fecb  # yamllint disable-line rule:line-length
