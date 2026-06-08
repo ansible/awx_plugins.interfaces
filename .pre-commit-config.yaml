@@ -2,8 +2,9 @@
 
 ci:
   autoupdate_schedule: quarterly  # low frequency to reduce maintenance noise
-  default_language_version:
-    python: python3.13  # nitpick and wemake-python-styleguide crash on 3.14
+
+default_language_version:
+  python: python3.13  # nitpick and wemake-python-styleguide crash on 3.14
 
 repos:
 - repo: local
