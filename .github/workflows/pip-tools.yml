@@ -82,8 +82,8 @@ jobs:
         - ~3.13.0-0
         os:
         - ubuntu-24.04
-        - macos-14
-        - macos-13
+        - macos-15  # arm64
+        - macos-15-intel
         lock-file-env:
         - build-dists
         - build-docs
