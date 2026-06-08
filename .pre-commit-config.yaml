@@ -90,9 +90,6 @@ repos:
   rev: v0.38.1
   hooks:
   - id: nitpick-check
-    # NOTE: `nitpick` hasn't been updated for Python 3.14 yet —
-    # NOTE: `importlib.abc.Traversable` was removed.
-    language_version: python3.13
     pass_filenames: false
 
 - repo: https://github.com/pre-commit/pygrep-hooks.git
