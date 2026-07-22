@@ -37,7 +37,7 @@ on:
 permissions:
   contents: read
   actions: read
-  pull_requests: read
+  pull-requests: read
 jobs:
   sonar-pr-analysis:
     name: SonarCloud PR Analysis
@@ -49,6 +49,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           persist-credentials: false
 
       # Download all individual coverage artifacts from CI workflow
@@ -59,6 +60,8 @@ jobs:
           workflow: CI
           run_id: ${{ github.event.workflow_run.id }}
           pattern: api-test-artifacts
+          if_no_artifact_found: ignore
+          continue-on-error: true
 
       # Extract PR metadata from workflow_run event
       - name: Set PR metadata and prepare files for analysis
@@ -80,11 +83,6 @@ jobs:
           else
             PR_NUMBER=""
           fi
-
-          echo "🔍 SonarCloud Analysis Decision Summary"
-          echo "========================================"
-          echo "├── CI Event: ✅ Pull Request"
-          echo "├── PR Number from coverage.xml: #${PR_NUMBER:-<not found>}"
 
           if [ -z "$PR_NUMBER" ]; then
             echo "##[error]❌ FATAL: PR number not found in coverage.xml"
@@ -117,7 +115,7 @@ jobs:
           # Get all changed files from PR (with error handling)
           # PR_NUMBER is guaranteed non-empty here (fatal exit above if missing)
           files=""
-          if gh api repos/$REPO_NAME/pulls/$PR_NUMBER/files --jq '.[].filename' > /tmp/pr_files.txt 2>/tmp/pr_error.txt; then
+          if gh api repos/$REPO_NAME/pulls/$PR_NUMBER/files --paginate --jq '.[].filename' > /tmp/pr_files.txt 2>/tmp/pr_error.txt; then
             files=$(cat /tmp/pr_files.txt)
           else
             echo "├── Changed Files: ⚠️  Could not fetch (likely test repo or PR not found)"
@@ -172,10 +170,21 @@ jobs:
             echo "└── Result: ✅ Running SonarCloud analysis"
           fi
 
-      - name: Add base branch
+      - name: Prepare repository for PR analysis
         if: env.PR_NUMBER != ''
         run: |
-          gh pr checkout ${{ env.PR_NUMBER }}
+          # Validate PR_NUMBER is numeric to prevent command injection
+          if ! [[ "$PR_NUMBER" =~ ^[0-9]+$ ]]; then
+            echo "##[error]Invalid PR number: $PR_NUMBER"
+            exit 1
+          fi
+
+          # Fetch the PR branch for SonarCloud PR analysis comparison
+          git fetch origin "$PR_BASE"
+
+          # Checkout the exact commit that CI tested, not the current PR head
+          # This ensures SonarCloud analyzes the same code that CI validated
+          git checkout "$COMMIT_SHA"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
