@@ -42,6 +42,7 @@ jobs:
   sonar-pr-analysis:
     name: SonarCloud PR Analysis
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     if: |
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.event == 'pull_request' &&
@@ -76,18 +77,12 @@ jobs:
           echo "Found coverage files: $coverage_files"
           echo "COVERAGE_PATHS=$coverage_files" >> $GITHUB_ENV
 
-          # Extract PR number from first coverage.xml file found
-          first_coverage=$(find . -name "coverage.xml" -type f | head -1)
-          if [ -f "$first_coverage" ]; then
-            PR_NUMBER=$(grep -m 1 '<!-- PR' "$first_coverage" | awk '{print $3}' || echo "")
-          else
-            PR_NUMBER=""
-          fi
+          # Extract PR number from workflow_run event
+          PR_NUMBER="${{ github.event.workflow_run.pull_requests[0].number }}"
 
           if [ -z "$PR_NUMBER" ]; then
-            echo "##[error]❌ FATAL: PR number not found in coverage.xml"
+            echo "##[error]❌ FATAL: PR number not found in workflow_run event"
             echo "##[error]This job requires a PR number to run PR analysis."
-            echo "##[error]The ci workflow should have injected the PR number into coverage.xml."
             exit 1
           fi
 
@@ -119,7 +114,7 @@ jobs:
             files=$(cat /tmp/pr_files.txt)
           else
             echo "├── Changed Files: ⚠️  Could not fetch (likely test repo or PR not found)"
-            if [ -f coverage.xml ] && [ -s coverage.xml ]; then
+            if [ -n "$coverage_files" ]; then
               echo "├── Coverage Data: ✅ Available"
             else
               echo "├── Coverage Data: ⚠️  Not available"
@@ -145,29 +140,15 @@ jobs:
           echo "All changed files in PR:"
           echo "$files"
 
-          # Filter out files that are excluded by .coveragerc to avoid coverage conflicts
-          # This prevents SonarCloud from analyzing files that have no coverage data
+          # Set changed files as inclusions for SonarCloud PR analysis
+          # This focuses the scan on modified files only, improving performance
+          # Note: sonar-project.properties contains the project-wide exclusions
           if [ -n "$files" ]; then
-            # Filter out files matching .coveragerc omit patterns
-            filtered_files=$(echo "$files" | grep -v "settings/.*_defaults\.py$" | grep -v "settings/defaults\.py$" | grep -v "main/migrations/")
-
-            # Show which files were filtered out for transparency
-            excluded_files=$(echo "$files" | grep -E "(settings/.*_defaults\.py$|settings/defaults\.py$|main/migrations/)" || true)
-            if [ -n "$excluded_files" ]; then
-              echo "├── Filtered out (coverage-excluded): $(echo "$excluded_files" | wc -l) file(s)"
-              echo "$excluded_files" | sed 's/^/│   - /'
-            fi
-
-            if [ -n "$filtered_files" ]; then
-              inclusions=$(echo "$filtered_files" | tr '\n' ',' | sed 's/,$//')
-              echo "SONAR_INCLUSIONS=$inclusions" >> $GITHUB_ENV
-              echo "└── Result: ✅ Will scan these files (excluding coverage-omitted files): $inclusions"
-            else
-              echo "└── Result: ✅ All changed files are excluded by coverage config, running full SonarCloud analysis"
-              # Don't set SONAR_INCLUSIONS, let it scan everything per sonar-project.properties
-            fi
+            inclusions=$(echo "$files" | tr '\n' ',' | sed 's/,$//')
+            echo "SONAR_INCLUSIONS=$inclusions" >> $GITHUB_ENV
+            echo "└── Result: ✅ Will scan $file_count changed file(s)"
           else
-            echo "└── Result: ✅ Running SonarCloud analysis"
+            echo "└── Result: ✅ Running SonarCloud analysis (full scan)"
           fi
 
       - name: Prepare repository for PR analysis
@@ -205,6 +186,7 @@ jobs:
   sonar-branch-analysis:
     name: SonarCloud Branch Analysis
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     if: |
       github.event_name == 'workflow_run' &&
       github.event.workflow_run.conclusion == 'success' &&
@@ -213,6 +195,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 0
           persist-credentials: false
 
       # Download all individual coverage artifacts from CI workflow (optional for branch pushes)
