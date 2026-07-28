@@ -39,7 +39,7 @@ name: SonarCloud
 on:
   workflow_run:  # This is triggered by CI being completed.
     workflows:
-    - CI
+    - "🧪"
     types:
     - completed
 permissions:
