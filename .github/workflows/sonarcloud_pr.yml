@@ -75,7 +75,7 @@ jobs:
           # Find all downloaded coverage XML files
           coverage_files=$(find . -name "coverage.xml" -type f | tr '\n' ',' | sed 's/,$//')
           echo "Found coverage files: $coverage_files"
-          echo "COVERAGE_PATHS=$coverage_files" >> $GITHUB_ENV
+          echo "COVERAGE_PATHS=$coverage_files" >> "$GITHUB_ENV"
 
           # Extract PR number from workflow_run event
           PR_NUMBER="${{ github.event.workflow_run.pull_requests[0].number }}"
@@ -101,16 +101,18 @@ jobs:
           echo "├── Repo: $REPO_NAME"
 
           # Export to GitHub env for later steps
-          echo "PR_NUMBER=$PR_NUMBER" >> $GITHUB_ENV
-          echo "PR_BASE=$PR_BASE" >> $GITHUB_ENV
-          echo "PR_HEAD=$PR_HEAD" >> $GITHUB_ENV
-          echo "COMMIT_SHA=$COMMIT_SHA" >> $GITHUB_ENV
-          echo "REPO_NAME=$REPO_NAME" >> $GITHUB_ENV
+          {
+            echo "PR_NUMBER=$PR_NUMBER"
+            echo "PR_BASE=$PR_BASE"
+            echo "PR_HEAD=$PR_HEAD"
+            echo "COMMIT_SHA=$COMMIT_SHA"
+            echo "REPO_NAME=$REPO_NAME"
+          } >> "$GITHUB_ENV"
 
           # Get all changed files from PR (with error handling)
           # PR_NUMBER is guaranteed non-empty here (fatal exit above if missing)
           files=""
-          if gh api repos/$REPO_NAME/pulls/$PR_NUMBER/files --paginate --jq '.[].filename' > /tmp/pr_files.txt 2>/tmp/pr_error.txt; then
+          if gh api "repos/$REPO_NAME/pulls/$PR_NUMBER/files" --paginate --jq '.[].filename' > /tmp/pr_files.txt 2>/tmp/pr_error.txt; then
             files=$(cat /tmp/pr_files.txt)
           else
             echo "├── Changed Files: ⚠️  Could not fetch (likely test repo or PR not found)"
@@ -145,7 +147,7 @@ jobs:
           # Note: sonar-project.properties contains the project-wide exclusions
           if [ -n "$files" ]; then
             inclusions=$(echo "$files" | tr '\n' ',' | sed 's/,$//')
-            echo "SONAR_INCLUSIONS=$inclusions" >> $GITHUB_ENV
+            echo "SONAR_INCLUSIONS=$inclusions" >> "$GITHUB_ENV"
             echo "└── Result: ✅ Will scan $file_count changed file(s)"
           else
             echo "└── Result: ✅ Running SonarCloud analysis (full scan)"
@@ -216,7 +218,7 @@ jobs:
           # Find all downloaded coverage XML files
           coverage_files=$(find . -name "coverage.xml" -type f | tr '\n' ',' | sed 's/,$//')
           echo "Found coverage files: $coverage_files"
-          echo "COVERAGE_PATHS=$coverage_files" >> $GITHUB_ENV
+          echo "COVERAGE_PATHS=$coverage_files" >> "$GITHUB_ENV"
 
           echo "🔍 SonarCloud Analysis Summary"
           echo "=============================="
