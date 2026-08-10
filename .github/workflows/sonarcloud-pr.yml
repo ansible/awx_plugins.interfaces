@@ -42,15 +42,17 @@ on:
     - "🧪"
     types:
     - completed
-permissions:
-  contents: read
-  actions: read
-  pull-requests: read
+permissions: {}
+
 jobs:
   sonar-pr-analysis:
     name: SonarCloud PR Analysis
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
+      pull-requests: read
     if: |
       github.event.workflow_run.conclusion == 'success' &&
       github.event.workflow_run.event == 'pull_request' &&
@@ -63,15 +65,12 @@ jobs:
 
     # Download all individual coverage artifacts from CI
     - name: Download coverage artifacts
-      uses: >-
-        dawidd6/action-download-artifact@246dbf436b23d7c49e21a7ab8204ca9ecd1fe615
+      uses: actions/download-artifact@v4
+      continue-on-error: true
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        workflow: CI
-        run_id: ${{ github.event.workflow_run.id }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        run-id: ${{ github.event.workflow_run.id }}
         pattern: api-test-artifacts
-        if_no_artifact_found: ignore
-        continue-on-error: true
 
     # Extract PR metadata from workflow_run event
     - name: Set PR metadata and prepare files for analysis
@@ -207,6 +206,9 @@ jobs:
     name: SonarCloud Branch Analysis
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    permissions:
+      contents: read
+      actions: read
     if: |
       github.event_name == 'workflow_run' &&
       github.event.workflow_run.conclusion == 'success' &&
@@ -221,13 +223,11 @@ jobs:
 
     # Download all coverage artifacts from CI (optional)
     - name: Download coverage artifacts
+      uses: actions/download-artifact@v4
       continue-on-error: true
-      uses: >-
-        dawidd6/action-download-artifact@246dbf436b23d7c49e21a7ab8204ca9ecd1fe615
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        workflow: CI
-        run_id: ${{ github.event.workflow_run.id }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        run-id: ${{ github.event.workflow_run.id }}
         pattern: api-test-artifacts
 
     - name: Print SonarCloud Analysis Summary
