@@ -172,6 +172,7 @@ intersphinx_mapping = {
 linkcheck_ignore = [
     r'https?://localhost:\d+/',  # local URLs
     r'https://codecov\.io/gh(/[^/]+){2}/branch/master/graph/badge\.svg',
+    r'https://coveralls\.io/github(/[^/]+){2}',  # 403 without auth
     r'https://github\.com(/[^/]+){2}/actions',  # 404 if no auth
     r'^https://chat\.ansible\.im/#',  # these render fully on front-end
     r'^https://matrix\.to/#',  # these render fully on front-end from anchors
