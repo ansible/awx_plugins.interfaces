@@ -1,3 +1,4 @@
+# yamllint disable rule:line-length
 ---
 
 name: 🧪
@@ -163,7 +164,7 @@ jobs:
 
     steps:
     - name: Switch to using Python 3.11 by default
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       with:
         python-version: 3.11
     - name: >-
@@ -200,7 +201,7 @@ jobs:
         ) as outputs_file:
             print('release-requested=true', file=outputs_file)
     - name: Check out src from Git
-      uses: actions/checkout@v4
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         fetch-depth: >-
           ${{
@@ -217,7 +218,7 @@ jobs:
     - name: Set up pip cache
       if: >-
         steps.request-check.outputs.release-requested != 'true'
-      uses: re-actors/cache-python-deps@release/v1
+      uses: re-actors/cache-python-deps@cb5e4347cdcefa232fd1cc80cd4a0865d9d100da # v1.0.1
       with:
         cache-key-for-dependency-files: >-
           ${{ steps.calc-cache-key-files.outputs.cache-key-for-dep-files }}
@@ -333,7 +334,7 @@ jobs:
     - pre-setup
 
 
-    uses: tox-dev/workflow/.github/workflows/reusable-tox.yml@1bb961580e20073f66ccb9024f248357f8c8fecb  # yamllint disable-line rule:line-length
+    uses: tox-dev/workflow/.github/workflows/reusable-tox.yml@1bb961580e20073f66ccb9024f248357f8c8fecb
     with:
       cache-key-for-dependency-files: >-
         ${{ needs.pre-setup.outputs.cache-key-for-dep-files }}
@@ -385,7 +386,7 @@ jobs:
           xfail: false
       fail-fast: false
 
-    uses: tox-dev/workflow/.github/workflows/reusable-tox.yml@1bb961580e20073f66ccb9024f248357f8c8fecb  # yamllint disable-line rule:line-length
+    uses: tox-dev/workflow/.github/workflows/reusable-tox.yml@1bb961580e20073f66ccb9024f248357f8c8fecb
     with:
       built-wheel-names: >-
         ${{
@@ -494,7 +495,7 @@ jobs:
         xfail:
         - false
 
-    uses: tox-dev/workflow/.github/workflows/reusable-tox.yml@1bb961580e20073f66ccb9024f248357f8c8fecb  # yamllint disable-line rule:line-length
+    uses: tox-dev/workflow/.github/workflows/reusable-tox.yml@1bb961580e20073f66ccb9024f248357f8c8fecb
     with:
       built-wheel-names: >-
         ${{ needs.pre-setup.outputs.wheel-artifact-name }}
@@ -562,7 +563,7 @@ jobs:
 
     steps:
     - name: Decide whether the needed jobs succeeded or failed
-      uses: re-actors/alls-green@release/v1
+      uses: re-actors/alls-green@b5b5b37504aa4183270bd3d855c52a67f212be35 # v1.3.0
       with:
         allowed-failures: >-
           ${{
@@ -602,7 +603,7 @@ jobs:
 
     steps:
     - name: Download all the dists
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
         name: >-
           ${{ needs.pre-setup.outputs.dists-artifact-name }}
@@ -611,7 +612,7 @@ jobs:
         📦
         Publish ${{ needs.pre-setup.outputs.git-tag }} to PyPI
         🔏
-      uses: pypa/gh-action-pypi-publish@release/v1
+      uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
 
   publish-testpypi:
     name: >-
@@ -647,7 +648,7 @@ jobs:
 
     steps:
     - name: Download all the dists
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
         name: >-
           ${{ needs.pre-setup.outputs.dists-artifact-name }}
@@ -656,7 +657,7 @@ jobs:
         📦
         Publish ${{ needs.pre-setup.outputs.git-tag }} to TestPyPI
         🔏
-      uses: pypa/gh-action-pypi-publish@release/v1
+      uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2
       with:
         repository-url: https://test.pypi.org/legacy/
 
@@ -682,7 +683,7 @@ jobs:
 
     steps:
     - name: Fetch the src snapshot  # IMPORTANT: Must be before the tag check
-      uses: actions/checkout@v4
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       with:
         fetch-depth: 2
         ref: ${{ github.event.inputs.release-committish }}
@@ -722,7 +723,7 @@ jobs:
       # Refs:
       # * https://github.community/t/github-actions-bot-email-address/17204/6
       # * https://github.com/actions/checkout/issues/13#issuecomment-724415212
-      uses: fregante/setup-git-user@v2
+      uses: fregante/setup-git-user@024bc0b8e177d7e77203b48dab6fb45666854b35 # v2.0.2
 
     - name: >-
         🏷️
@@ -776,7 +777,7 @@ jobs:
       contents: write
 
     # Can't pin with hash due to how this workflow works.
-    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v2.0.0  # yamllint disable-line rule:line-length
+    uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@f7dd8c54c2067bafc12ca7a55595d5ee9b75204a  # v2.1.0
     with:
       base64-subjects: >-
         ${{
@@ -807,7 +808,7 @@ jobs:
 
     steps:
     - name: Download all the dists
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
         name: >-
           ${{ needs.pre-setup.outputs.dists-artifact-name }}
@@ -816,7 +817,7 @@ jobs:
     - name: >-
         🔏
         Generate provenance attestations for the dists
-      uses: actions/attest-build-provenance@v1
+      uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
       with:
         subject-path: |
           dist/${{ needs.pre-setup.outputs.sdist-artifact-name }}
@@ -846,13 +847,13 @@ jobs:
 
     steps:
     - name: Download all the dists
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
         name: >-
           ${{ needs.pre-setup.outputs.dists-artifact-name }}
         path: dist/
     - name: Download SLSA provenance in-toto files
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
         name: >-
           ${{ needs.slsa-provenance.outputs.provenance-name }}
@@ -922,7 +923,7 @@ jobs:
       shell: bash
 
     - name: Sign the dists with Sigstore
-      uses: sigstore/gh-action-sigstore-python@v3.0.0
+      uses: sigstore/gh-action-sigstore-python@790bc6befb9d733738f18d8f895854b453640ec9 # v3.5.0
       with:
         inputs: >-
           dist/${{ needs.pre-setup.outputs.sdist-artifact-name }}
@@ -932,7 +933,7 @@ jobs:
         Publish a GitHub Release for
         ${{ needs.pre-setup.outputs.git-tag }}
         with Sigstore-signed artifacts
-      uses: ncipollo/release-action@v1
+      uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1.21.0
       with:
         allowUpdates: false
         artifactErrorsFailBuild: false

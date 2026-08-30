@@ -1,3 +1,4 @@
+# yamllint disable rule:line-length
 ---
 
 name: 🔒 pip-tools
@@ -136,10 +137,10 @@ jobs:
 
     steps:
     - name: Grab the source from Git
-      uses: actions/checkout@v4  # Keep before `setup-python` for cache to work
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
 
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
       with:
         python-version: ${{ matrix.python-version }}
 
@@ -149,7 +150,7 @@ jobs:
       id: calc-cache-key-files
       uses: ./.github/actions/cache-keys
     - name: Set up pip cache
-      uses: re-actors/cache-python-deps@release/v1
+      uses: re-actors/cache-python-deps@cb5e4347cdcefa232fd1cc80cd4a0865d9d100da # v1.0.1
       with:
         cache-key-for-dependency-files: >-
           ${{ steps.calc-cache-key-files.outputs.cache-key-for-dep-files }}
@@ -186,7 +187,7 @@ jobs:
       # Refs:
       # * https://github.community/t/github-actions-bot-email-address/17204/6
       # * https://github.com/actions/checkout/issues/13#issuecomment-724415212
-      uses: fregante/setup-git-user@v2.0.1
+      uses: fregante/setup-git-user@024bc0b8e177d7e77203b48dab6fb45666854b35 # v2.0.2
 
     - name: Generate constraints files
       run: >-
@@ -256,7 +257,7 @@ jobs:
       shell: bash  # windows compat
     - name: Save the package bump patch as a GHA artifact
       if: steps.constraints.outputs.patch
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         name: pip-constraints-git-patches--${{ steps.random.outputs.uuid }}
         path: ${{ steps.constraints.outputs.patch }}
@@ -273,7 +274,7 @@ jobs:
 
     steps:
     - name: Decide whether the needed jobs succeeded or failed
-      uses: re-actors/alls-green@release/v1
+      uses: re-actors/alls-green@b5b5b37504aa4183270bd3d855c52a67f212be35 # v1.3.0
       with:
         jobs: ${{ toJSON(needs) }}
 
@@ -300,7 +301,7 @@ jobs:
     - name: Download all the dists
       id: artifacts-download
       continue-on-error: true  # and judge whether there's updates later
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
         merge-multiple: true
         path: ${{ runner.temp }}/patches/
@@ -314,13 +315,13 @@ jobs:
         echo "lockfile-updates-needed=true" >> "${GITHUB_OUTPUT}"
     - name: Grab the source from Git
       if: steps.artifacts.outputs.lockfile-updates-needed
-      uses: actions/checkout@v4
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
     - name: Setup git user as [bot]
       if: steps.artifacts.outputs.lockfile-updates-needed
       # Refs:
       # * https://github.community/t/github-actions-bot-email-address/17204/6
       # * https://github.com/actions/checkout/issues/13#issuecomment-724415212
-      uses: fregante/setup-git-user@v2.0.1
+      uses: fregante/setup-git-user@024bc0b8e177d7e77203b48dab6fb45666854b35 # v2.0.2
 
     - name: Figure out if the pre-existing remote branch exists
       if: steps.artifacts.outputs.lockfile-updates-needed
@@ -351,7 +352,7 @@ jobs:
         !steps.pre-existing-remote-branch.outputs.info
         && steps.artifacts.outputs.lockfile-updates-needed
       id: new-pr
-      uses: vsoch/pull-request-action@1.1.1
+      uses: vsoch/pull-request-action@882391869b75196e039a732df05085312c456995 # 1.1.1
       env:
         BRANCH_PREFIX: ''
         GITHUB_TOKEN: ${{ github.token }}
