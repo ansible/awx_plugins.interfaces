@@ -5,7 +5,7 @@ from __future__ import annotations
 import pathlib
 import platform
 import shlex
-import subprocess  # noqa: S404 -- pip/pip-tools don't have importable APIs
+import subprocess  # ruff: ignore[suspicious-subprocess-import] -- pip/pip-tools don't have importable APIs
 import sys
 
 
@@ -74,4 +74,4 @@ def run_cmd(cmd: list[str] | tuple[str, ...]) -> None:
     """
     escaped_cmd = shlex.join(cmd)
     print(f'Invoking the following command: {escaped_cmd!s}')  # noqa: T201, WPS421
-    subprocess.check_call(cmd)  # noqa: S603
+    subprocess.check_call(cmd)  # ruff: ignore[subprocess-without-shell-equals-true]
