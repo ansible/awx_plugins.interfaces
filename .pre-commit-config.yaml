@@ -272,6 +272,9 @@ repos:
     - PyYAML  # needed by pylint-pytest since it imports test modules
     - Sphinx  # needed by the Sphinx extension stub
     - tox  # needed by `toxfile.py`
+    # FIXME: drop the pytest constraint once `pylint-pytest` supports v9.2+
+    - >-  # Ref: https://github.com/pylint-dev/pylint-pytest/issues/163
+      pytest < 9.2
 
 - repo: https://github.com/rhysd/actionlint.git
   rev: v1.7.12
