@@ -1,7 +1,7 @@
 [build-system]
 requires = [
   # Essentials:
-  "setuptools >= 64",
+  "setuptools >= 77.0.1",  # PEP 639 license expressions support
 
   # Plugins:
   "setuptools-scm >= 8",
@@ -26,8 +26,6 @@ classifiers = [  # Allowlist: https://pypi.org/classifiers/
 
   "Intended Audience :: System Administrators",
 
-  "License :: OSI Approved :: Apache Software License",
-
   "Operating System :: POSIX :: Linux",
 
   "Programming Language :: Python :: 3",
@@ -47,6 +45,10 @@ keywords = [
   "Ansible",
   "AWX",
 ]
+license = "Apache-2.0"  # SPDX expression, PEP 639
+license-files = [
+  "LICENSE",
+]
 requires-python = ">= 3.11"  # must be set from the very first release
 
 [[project.authors]]
@@ -64,9 +66,6 @@ name = "Ansible maintainers and contributors"
 # `pip install awx_plugins.credentials.x`  would auto-activate any plugins the packaged project ships
 # [project.entry-points."awx_plugins.credentials"]
 # x = "awx_plugins.credentials.x.api:XPlugin"
-
-[project.license]
-file = "LICENSE"
 
 # [[project.maintainers]]  # if differs from authors
 # name = ""
