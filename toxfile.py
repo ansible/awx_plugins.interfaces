@@ -38,7 +38,7 @@ if t.TYPE_CHECKING:
 _sys_path[:0] = ['bin/']  # noqa: WPS362
 
 # pylint: disable-next=wrong-import-position
-from pip_constraint_helpers import (  # noqa: E402
+from pip_constraint_helpers import (  # ruff: ignore[module-import-not-at-top-of-file]
     get_constraint_file_path,
     get_runtime_python_tag,
 )
@@ -510,7 +510,7 @@ pip_compile_env_clss = {
 
 @impl
 def tox_add_core_config(
-    core_conf: ConfigSet,  # noqa: ARG001  # pylint: disable=unused-argument
+    core_conf: ConfigSet,  # ruff: ignore[unused-function-argument]  # pylint: disable=unused-argument
     state: State,
 ) -> None:
     """Define pip-compile in-memory tox environment configs."""
