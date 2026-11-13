@@ -165,7 +165,16 @@ rst-roles =
   # Sphinx's internal role:
   event,
 
+# flake8-typing-as-t
+# TYT02:
+typing-as-t-imported-name = _t
+
 # wemake-python-styleguide
+# WPS111:
+# `_t` will be enforced by `flake8-typing-as-t`
+allowed-domain-names =
+  _t,
+  _c,
 i-control-code = false
 show-violation-links = true
 show-source = true
