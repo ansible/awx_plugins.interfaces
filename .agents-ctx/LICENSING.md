@@ -16,12 +16,12 @@
   from and under which license, and let them decide whether it
   can come in.
 
-Here: ansible-pylibssh is `LGPL-2.1-or-later` (`LICENSE.rst`,
-`pyproject.toml`). Source files carry the LGPL boilerplate header,
-not SPDX tags. `build-scripts/manylinux-container-image/` is
-derived from PyCA/infra and stays under Apache-2.0 / BSD-3-Clause,
-with its license files next to it. The wheels bundle libssh, which
-is LGPL-2.1 itself.
+Here: awx_plugins.interfaces is `Apache-2.0`, with the full text
+in `LICENSE` and declared through `pyproject.toml`'s `license` /
+`license-files`. Contributions are accepted under the DCO (see
+`CONTRIBUTING.md`). Source files carry no license headers. The
+`_temporary_private_*` modules hold code taken from AWX, which is
+Apache-2.0 as well.
 
 ## Claude Code guard hook
 

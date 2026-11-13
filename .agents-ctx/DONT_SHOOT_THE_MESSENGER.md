@@ -85,14 +85,10 @@ exclude it as described in [Presenting a case](#presenting-a-case)
 -- or a blind spot of the tooling. Say what each new test proves,
 not which lines it turns green.
 
-Here: PR #879 added a test calling `_RemoteFile._cleanup()` by hand,
-without assertions, to cover its early return on an already-closed
-handle. Real use already takes that branch: `__exit__()` closes the
-handle and `__dealloc__()` runs `_cleanup()` again, and a failed
-`sftp_open()` deallocates an object whose handle was never set.
-With Cython line tracing on, dozens of other tests in
-`tests/unit/sftp_test.py`, including plain `SFTP.get()` and
-`SFTP.put()` calls, were already recorded taking it.
+Here: the `_temporary_private_*` modules are the code under test
+in their `tests/_temporary_private_*_test.py` counterparts, so
+importing them there is not reaching around a public API. Calling
+`_`-prefixed names *inside* those modules from tests still is.
 
 ## Presenting a case
 
@@ -160,8 +156,12 @@ them unasked. Point them out to the operator if they're in the
 area you're touching. Removing a suppression that's no longer
 needed is welcome, but show it too.
 
-Here: e.g. the bare `# noqa: DAR101` lines in `tests/conftest.py`,
-without an explanation.
+Here: e.g. the long, unexplained `.flake8` `per-file-ignores`
+entry for `src/awx_plugins/interfaces/_temporary_private_inject_api.py`,
+and the bare `# noqa: WPS410` on `__all__ = ()` lines. The
+`# noqa: WPS111` on `toxfile.py`'s `typing` import has been
+unnecessary since `.flake8` started allowing `_t`; `toxfile.py` is
+synced with other projects, so drop it there first.
 
 ## Tool-config changes are standalone
 
