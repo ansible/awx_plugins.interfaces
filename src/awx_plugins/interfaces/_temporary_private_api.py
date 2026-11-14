@@ -4,8 +4,8 @@
 The hope is that it will be refactored into something more standardized.
 """
 
+import typing as _t
 from collections.abc import Callable, Mapping
-from typing import Union
 
 from ._temporary_private_credential_api import (  # noqa: WPS436
     Credential as Credential,
@@ -16,7 +16,7 @@ InputDefinitionValueType = list[dict[str, str | bool]]
 InputDefinitionType = dict[str, InputDefinitionValueType]
 
 InjectorDefinitionBaseType = dict[str, dict[str, str]]
-InjectorDefinitionType = Union[InjectorDefinitionBaseType, None]
+InjectorDefinitionType = _t.Union[InjectorDefinitionBaseType, None]
 
 EnvVarsValueType = Mapping[str, 'EnvVarsType'] | list['EnvVarsType'] | str
 EnvVarsType = dict[str, EnvVarsValueType]
