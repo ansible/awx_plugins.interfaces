@@ -20,10 +20,10 @@ IS_RELEASE_ON_RTD = (
 tags: set[str]
 if IS_RELEASE_ON_RTD:
     # pylint: disable-next=used-before-assignment
-    tags.add('is_release')  # noqa: F821
+    tags.add('is_release')  # ruff: ignore[undefined-name]
 elif IS_RTD_ENV:
     # pylint: disable-next=used-before-assignment
-    tags.add('is_unversioned')  # noqa: F821
+    tags.add('is_unversioned')  # ruff: ignore[undefined-name]
 
 
 # Make in-tree extension importable in non-tox setups/envs, like RTD.
@@ -46,7 +46,7 @@ copyright = author  # pylint: disable=redefined-builtin
 release = (
     # pylint: disable-next=used-before-assignment
     'unversioned'
-    if tags.has('is_unversioned')  # noqa: F821
+    if tags.has('is_unversioned')  # ruff: ignore[undefined-name]
     else _retrieve_metadata_version_for(project)
 )
 
@@ -54,7 +54,7 @@ release = (
 version = (
     # pylint: disable-next=used-before-assignment
     'unversioned'
-    if tags.has('is_unversioned')  # noqa: F821
+    if tags.has('is_unversioned')  # ruff: ignore[undefined-name]
     else '.'.join(release.split('.')[:2])
 )
 
