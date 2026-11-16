@@ -6,7 +6,7 @@
 #
 covdefaults==2.3.0
     # via -r dependencies/direct/py.in
-coverage==7.17.2
+coverage==7.17.3
     # via
     #   -r dependencies/direct/py.in
     #   covdefaults
