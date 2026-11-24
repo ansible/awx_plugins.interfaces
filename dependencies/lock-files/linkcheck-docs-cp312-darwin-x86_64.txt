@@ -45,7 +45,7 @@ mdurl==0.1.2
     # via markdown-it-py
 myst-parser==5.2.0
     # via -r dependencies/direct/build-docs.in
-packaging==26.3
+packaging==26.4
     # via sphinx
 pbr==7.1.3
     # via sphinxcontrib-apidoc
